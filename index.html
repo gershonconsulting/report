@@ -1,710 +1,407 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gershon Consulting — One-Pager Generator</title>
-  <meta name="description" content="Generate a polished client one-pager PDF from a Google Drive folder." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23CC3333'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='600' font-style='italic' text-anchor='middle' fill='white'%3EG%3C/text%3E%3C/svg%3E" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #FAF8F5;
-      color: #1A1A1A;
-      font-family: 'Inter', -apple-system, system-ui, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-    .serif { font-family: 'Fraunces', Georgia, serif; font-optical-sizing: auto; }
-    .mono { font-family: 'JetBrains Mono', 'SF Mono', monospace; letter-spacing: -0.01em; }
-    .sans { font-family: 'Inter', sans-serif; }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gershon Consulting — One-Pager Generator</title>
+<meta name="description" content="Turn a month of campaign exports into a client-ready one-pager.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%23cc3333'/%3E%3Ctext x='16' y='23' font-family='Helvetica,Arial' font-size='20' font-weight='700' fill='%23fff' text-anchor='middle'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* ============================================================
+   Gershon Consulting — One-Pager Generator
+   Single-file static app. Committed to one light visual world:
+   the output is a printed client document.
+   ============================================================ */
+:root{
+  --paper:#ffffff;
+  --surface:#f6f3f2;
+  --surface-2:#ece6e4;
+  --band:#2a2a2a;
+  --band-ink:#f4efed;
+  --band-ink-2:#a9a09d;
+  --ink:#2a2a2a;
+  --ink-2:#55504e;
+  --ink-3:#8a817e;
+  --rule:#ded6d3;
+  --rule-strong:#c6bcb8;
+  --accent:#cc3333;
+  --accent-deep:#8f2323;
+  --accent-mid:#b02c2c;
+  --accent-soft:#f4dedd;
+  --cool:#2f6180;
+  --cool-soft:#dde7ed;
+  --good:#2c7a58;
+  --good-soft:#dceee5;
+  --warn:#8a6d1f;
+  --warn-soft:#f6eed6;
+  --f1:#7d1f1f; --f2:#a52a2a; --f3:#cc3333;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--surface);color:var(--ink);
+  font-family:"IBM Plex Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:Archivo,"Helvetica Neue",Helvetica,Arial,sans-serif;margin:0;text-wrap:balance}
+.num,.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+[hidden]{display:none!important}
+button{font:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
 
-    .eyebrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: #CC3333;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-    }
-    .micro-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: #8A857E;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-    }
+/* ---------------- app chrome ---------------- */
+.appbar{background:var(--band);color:var(--band-ink);border-bottom:4px solid var(--accent)}
+.appbar .in{max-width:1180px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.logo{width:28px;height:28px;border-radius:2px;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:Archivo,sans-serif;font-weight:700;font-size:15px;flex:none}
+.appbar h1{font-size:15px;font-weight:600;letter-spacing:.01em}
+.appbar .sub{font-size:11.5px;color:var(--band-ink-2)}
+.appbar .spacer{flex:1}
+.steps{display:flex;gap:0;list-style:none;margin:0;padding:0}
+.steps li{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--band-ink-2);padding:5px 14px;border-left:1px solid rgba(255,255,255,.14);
+}
+.steps li:first-child{border-left:0}
+.steps li[aria-current="step"]{color:#fff}
+.steps li[aria-current="step"]::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:7px;vertical-align:middle}
 
-    /* Header */
-    header.site {
-      border-bottom: 1px solid #E8E4DE;
-      background: #FFFFFF;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .header-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 18px 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .logo-mark {
-      width: 32px;
-      height: 32px;
-      background: #CC3333;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 18px;
-      font-weight: 600;
-      font-style: italic;
-      line-height: 1;
-    }
-    .brand-text-tiny {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: #8A857E;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-    }
-    .brand-text-title {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 18px;
-      font-weight: 500;
-      color: #1A1A1A;
-      margin-top: 1px;
-    }
-    .header-meta {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .meta-pill {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: #8A857E;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-    }
-    .meta-divider {
-      font-size: 9px;
-      letter-spacing: 0.1em;
-      margin-left: 12px;
-      padding-left: 12px;
-      border-left: 1px solid #E8E4DE;
-      opacity: 0.7;
-      font-family: 'JetBrains Mono', monospace;
-      color: #8A857E;
-    }
-    .lock-icon { width: 12px; height: 12px; stroke: #8A857E; }
+.wrap{max-width:1180px;margin:0 auto;padding:28px}
+.panel{background:var(--paper);border:1px solid var(--rule)}
+.panel > .ph{padding:18px 24px;border-bottom:1px solid var(--rule);display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.panel > .ph h2{font-size:15px;font-weight:600}
+.panel > .ph .hint{font-size:12px;color:var(--ink-3)}
+.panel > .pb{padding:24px}
 
-    /* Main */
-    main.page {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 72px 32px 96px;
-    }
-    .container { max-width: 720px; }
+/* ---------------- buttons ---------------- */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);background:var(--ink);color:#fff;
+  padding:9px 18px;border-radius:2px;cursor:pointer;font-size:13px;font-weight:500;
+  font-family:"IBM Plex Sans",sans-serif;transition:background .12s,border-color .12s;
+}
+.btn:hover{background:#3d3b3a;border-color:#3d3b3a}
+.btn.primary{background:var(--accent);border-color:var(--accent)}
+.btn.primary:hover{background:var(--accent-mid);border-color:var(--accent-mid)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule-strong)}
+.btn.ghost:hover{background:var(--surface);border-color:var(--ink-3)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.sm{padding:6px 12px;font-size:12px}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 
-    h1.headline {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 56px;
-      line-height: 1.05;
-      font-weight: 400;
-      color: #1A1A1A;
-      margin: 28px 0 0;
-      letter-spacing: -0.02em;
-    }
-    h1.headline em {
-      font-style: italic;
-      color: #CC3333;
-      font-weight: 400;
-    }
-    p.lede {
-      font-size: 17px;
-      line-height: 1.6;
-      color: #3d3d3d;
-      margin-top: 28px;
-      max-width: 640px;
-    }
+/* ---------------- dropzone ---------------- */
+.drop{
+  border:2px dashed var(--rule-strong);background:var(--surface);border-radius:3px;
+  padding:40px 28px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;
+}
+.drop:hover,.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.drop h3{font-size:16px;font-weight:600;margin-bottom:6px}
+.drop p{margin:0;font-size:12.5px;color:var(--ink-2);max-width:56ch;margin-inline:auto;line-height:1.6}
+.filelist{margin-top:18px;display:flex;flex-direction:column;gap:1px;background:var(--rule)}
+.fileitem{background:var(--paper);padding:11px 14px;display:flex;align-items:center;gap:12px;font-size:12.5px}
+.fileitem .fn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge{
+  font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;letter-spacing:.07em;
+  text-transform:uppercase;padding:2px 7px;border-radius:2px;white-space:nowrap;
+}
+.badge.ok{background:var(--good-soft);color:var(--good)}
+.badge.warn{background:var(--warn-soft);color:var(--warn)}
+.badge.err{background:var(--accent-soft);color:var(--accent-deep)}
+.badge.busy{background:var(--surface-2);color:var(--ink-3)}
 
-    /* Form fields */
-    .field-block { margin-top: 36px; }
-    .field-label {
-      display: block;
-      margin-bottom: 10px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: #8A857E;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-    }
-    .field-required { color: #CC3333; }
-    .input-shell {
-      display: flex;
-      align-items: stretch;
-      border: 1px solid #E8E4DE;
-      background: #FFFFFF;
-      transition: border 0.15s;
-    }
-    .input-shell:focus-within { border-color: #CC3333; }
-    .input-shell.error { border-color: #CC3333; }
-    .input-prefix {
-      padding: 16px 14px 16px 18px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      color: #8A857E;
-      border-right: 1px solid #E8E4DE;
-      display: flex;
-      align-items: center;
-      background: #FAF8F5;
-    }
-    .input-field {
-      flex: 1;
-      border: none;
-      padding: 16px 18px;
-      font-size: 17px;
-      font-family: 'Inter', sans-serif;
-      color: #1A1A1A;
-      background: transparent;
-      min-width: 0;
-    }
-    .input-field:focus { outline: none; }
-    .input-field::placeholder { color: #B8B2A9; }
-    .field-hint {
-      margin-top: 8px;
-      font-size: 13px;
-      color: #8A857E;
-    }
-    .field-error {
-      margin-top: 8px;
-      font-size: 13px;
-      color: #CC3333;
-      display: none;
-    }
-    .field-error.show { display: block; }
+.recognised{margin-top:20px;border-top:1px solid var(--rule);padding-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.recognised .r h4{font-size:12px;font-weight:600;margin-bottom:5px}
+.recognised .r p{margin:0;font-size:11.5px;color:var(--ink-3);line-height:1.5}
 
-    /* Buttons */
-    .btn-primary {
-      background: #CC3333;
-      color: white;
-      border: none;
-      padding: 14px 28px;
-      font-family: 'Inter', sans-serif;
-      font-weight: 500;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.15s;
-      letter-spacing: 0.02em;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .btn-primary:hover:not(:disabled) { background: #A82828; }
-    .btn-primary:disabled { background: #CFC9C1; cursor: not-allowed; }
-    .btn-ghost {
-      background: none;
-      border: none;
-      color: #8A857E;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      text-decoration: underline;
-      text-underline-offset: 4px;
-      padding: 0;
-    }
-    .btn-ghost:hover { color: #1A1A1A; }
+/* ---------------- review form ---------------- */
+.fieldgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px 18px}
+.fld label{display:block;font-size:11px;font-weight:600;color:var(--ink-2);margin-bottom:5px}
+.fld input,.fld select,.fld textarea{
+  width:100%;padding:8px 10px;border:1px solid var(--rule-strong);border-radius:2px;
+  background:var(--paper);color:var(--ink);font-family:"IBM Plex Mono",monospace;font-size:13px;
+}
+.fld input[data-text],.fld textarea{font-family:"IBM Plex Sans",sans-serif}
+.fld input:focus,.fld textarea:focus,.fld select:focus{border-color:var(--accent);outline:none}
+.fld.missing input,.fld.missing textarea{border-color:var(--warn);background:var(--warn-soft)}
+.fld .hint{font-size:10.5px;color:var(--ink-3);margin-top:4px}
+.grp{margin-top:26px}
+.grp:first-child{margin-top:0}
+.grp > .gh{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+.grp > .gh h3{font-size:13px;font-weight:600}
+.grp > .gh .line{flex:1;height:1px;background:var(--rule)}
+.grp > .gh .note{font-size:11px;color:var(--ink-3)}
+textarea{min-height:120px;line-height:1.55;resize:vertical}
+.legendkey{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-2);margin-bottom:16px}
+.legendkey span{display:flex;align-items:center;gap:6px}
+.sw{width:10px;height:10px;border-radius:2px;display:inline-block}
 
-    .actions-row {
-      margin-top: 36px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
+/* ============================================================
+   THE REPORT — matches the delivered Enzymicals one-pager
+   ============================================================ */
+.report{background:#fff;color:var(--ink)}
+.rule-top{height:5px;background:var(--accent)}
+.sheet{max-width:1080px;margin:0 auto;padding:0 40px 56px}
+.masthead{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;padding:30px 0 22px;border-bottom:1px solid var(--rule)}
+.masthead h1{font-size:40px;font-weight:700;letter-spacing:-.022em;line-height:1.02}
+.masthead .period{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.04em;margin-top:7px}
+.by{text-align:right;font-size:12px;color:var(--ink-3);line-height:1.65;white-space:nowrap}
+.by strong{display:block;font-family:Archivo,sans-serif;font-size:13.5px;font-weight:600;color:var(--ink)}
+.by img{max-height:34px;max-width:150px;display:block;margin:0 0 8px auto}
 
-    .spinner {
-      border: 2px solid rgba(255,255,255,0.35);
-      border-top-color: #fff;
-      border-radius: 9999px;
-      width: 14px;
-      height: 14px;
-      animation: spin 0.7s linear infinite;
-      display: inline-block;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+.thesis{display:grid;grid-template-columns:1fr auto;gap:36px;align-items:center;padding:26px 0 28px}
+.thesis p{margin:0;font-family:Archivo,sans-serif;font-size:21px;font-weight:500;line-height:1.36;letter-spacing:-.012em;max-width:34ch}
+.thesis em{font-style:normal;color:var(--accent);font-weight:600}
+.thesis .aside{font-size:12.5px;color:var(--ink-2);max-width:30ch;line-height:1.6;border-left:2px solid var(--rule-strong);padding-left:16px}
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-    .fade-in { animation: fadeIn 0.35s ease-out; }
+.band{background:var(--band);color:var(--band-ink);display:grid;grid-template-columns:repeat(3,1fr);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.band .cell{padding:26px 28px 24px;border-left:1px solid rgba(255,255,255,.11)}
+.band .cell:first-child{border-left:0}
+.band .k{font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--band-ink-2)}
+.band .v{font-family:Archivo,sans-serif;font-weight:700;font-size:52px;line-height:1;letter-spacing:-.03em;margin:12px 0 8px}
+.band .cell:first-child .v{color:#ff6060}
+.band .d{font-size:12.5px;color:var(--band-ink-2);line-height:1.45}
+.band .d b{color:var(--band-ink);font-weight:600}
 
-    /* What we'll do section */
-    .info-section {
-      margin-top: 72px;
-      border-top: 1px solid #E8E4DE;
-      padding-top: 32px;
-    }
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-      margin-top: 20px;
-    }
-    .info-card {
-      border-left: 2px solid #CC3333;
-      padding-left: 16px;
-    }
-    .info-card-number {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: #CC3333;
-      letter-spacing: 0.15em;
-    }
-    .info-card-title {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 17px;
-      color: #1A1A1A;
-      margin-top: 4px;
-      font-style: italic;
-    }
-    .info-card ul {
-      margin: 10px 0 0;
-      padding: 0;
-      list-style: none;
-    }
-    .info-card li {
-      font-size: 13px;
-      color: #3d3d3d;
-      padding: 3px 0;
-    }
-    .info-footer-note {
-      margin-top: 28px;
-      font-size: 13px;
-      color: #8A857E;
-      font-style: italic;
-    }
+.report section{padding-top:34px}
+.head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px}
+.head h2{font-size:15px;font-weight:600;white-space:nowrap}
+.head .line{flex:1;height:1px;background:var(--rule)}
+.head .note{font-size:11.5px;color:var(--ink-3);white-space:nowrap}
 
-    /* Result cards */
-    .result-card {
-      margin-top: 40px;
-      border: 1px solid #E8E4DE;
-      background: #FFFFFF;
-      padding: 28px;
-    }
-    .result-row {
-      padding: 10px 0;
-      border-bottom: 1px solid #F0EDE7;
-    }
-    .result-row:last-child { border-bottom: none; }
-    .result-row-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: #8A857E;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      margin-bottom: 4px;
-    }
-    .result-row-value {
-      font-size: 14px;
-      color: #1A1A1A;
-      word-break: break-all;
-    }
-    .result-row-value.mono {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      color: #3d3d3d;
-    }
+.ratios{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.ratios .rt{padding:18px 22px 17px;border-left:1px solid var(--rule)}
+.ratios .rt:first-child{border-left:0;padding-left:0}
+.ratios .r-v{font-family:Archivo,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.022em;line-height:1}
+.ratios .r-v span{font-size:15px;font-weight:500;color:var(--ink-3);letter-spacing:0}
+.ratios .r-k{font-size:12px;color:var(--ink-2);margin-top:8px;line-height:1.4}
 
-    .hidden { display: none !important; }
+.funnel{display:grid;grid-template-columns:150px 1fr;gap:0 20px}
+.f-label{padding:11px 0;font-size:12.5px;color:var(--ink-2);border-top:1px solid var(--rule);display:flex;align-items:center}
+.f-bar-wrap{padding:11px 0;border-top:1px solid var(--rule);display:flex;align-items:center;gap:12px}
+.f-bar{height:22px;border-radius:0 3px 3px 0;min-width:5px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.f-val{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.f-pct{font-size:11.5px;color:var(--ink-3);font-family:"IBM Plex Mono",monospace}
+.callout{margin-top:16px;padding:14px 18px;background:var(--surface);border-left:3px solid var(--accent);font-size:12.5px;color:var(--ink-2);line-height:1.6}
+.callout b{color:var(--ink);font-weight:600}
 
-    @media (max-width: 720px) {
-      .header-inner { padding: 14px 20px; }
-      main.page { padding: 48px 20px 72px; }
-      h1.headline { font-size: 38px; }
-      p.lede { font-size: 16px; }
-      .info-grid { grid-template-columns: 1fr; }
-      .input-field { font-size: 16px; padding: 14px 16px; }
-      .input-prefix { padding: 14px 12px 14px 16px; }
-      .header-meta .meta-divider { display: none; }
-    }
-  </style>
+.split{display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
+.chan{border-top:2px solid var(--ink);padding-top:14px}
+.chan.organic{border-top-color:var(--cool)}
+.chan h3{font-size:13.5px;font-weight:600;margin-bottom:2px}
+.chan .sub{font-size:11.5px;color:var(--ink-3);margin-bottom:12px}
+.mrow{display:flex;align-items:baseline;gap:10px;padding:8px 0;border-top:1px solid var(--rule)}
+.mrow .mk{flex:1;font-size:12.5px;color:var(--ink-2)}
+.mrow .mv{font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.chip{font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;padding:2px 6px;border-radius:2px;min-width:54px;text-align:center;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.chip.up{background:var(--accent-soft);color:var(--accent-deep)}
+.chip.flat{background:var(--surface-2);color:var(--ink-3)}
+.chip.down{background:var(--surface-2);color:var(--ink-2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
+.mini h3{font-size:12px;font-weight:600;margin-bottom:3px}
+.mini .cap{font-size:11px;color:var(--ink-3);margin-bottom:12px;line-height:1.4}
+.brow{display:grid;grid-template-columns:1fr 34px;gap:9px;align-items:center;margin-bottom:9px}
+.brow .bl{font-size:11.5px;color:var(--ink-2);line-height:1.3}
+.brow .bn{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.btrack{grid-column:1/-1;height:7px;background:var(--surface-2);border-radius:4px;overflow:hidden;margin-top:-4px}
+.bfill{height:100%;border-radius:4px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.geo{display:flex;flex-wrap:wrap;gap:6px}
+.geo span{font-size:11px;color:var(--ink-2);background:var(--surface);border:1px solid var(--rule);border-radius:2px;padding:3px 8px}
+.geo span b{font-family:"IBM Plex Mono",monospace;color:var(--accent);font-weight:600}
+
+.stackbar{display:flex;height:26px;border-radius:3px;overflow:hidden;gap:2px;background:transparent}
+.stackbar div{-webkit-print-color-adjust:exact;print-color-adjust:exact;display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:#fff}
+.stacklegend{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:11.5px;color:var(--ink-2)}
+.stacklegend span{display:flex;align-items:center;gap:6px}
+
+figure{margin:0}
+figcaption{font-size:11px;color:var(--ink-3);margin-top:8px;line-height:1.5}
+svg{display:block;max-width:100%;height:auto}
+
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);padding:0 12px 9px 0;border-bottom:1px solid var(--rule-strong);white-space:nowrap}
+td{padding:10px 12px 10px 0;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink-2)}
+td.nm{color:var(--ink);font-weight:600}
+table.leads{table-layout:fixed}
+table.leads td{word-break:normal;overflow-wrap:anywhere}
+td.co{color:var(--ink);font-weight:500}
+td.dt{font-family:"IBM Plex Mono",monospace;font-size:11.5px;white-space:nowrap;color:var(--ink-3)}
+.tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:2px 6px;border-radius:2px;white-space:nowrap;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+.post{padding:13px 0;border-top:1px solid var(--rule)}
+.post:first-child{border-top:0;padding-top:0}
+.post .ph2{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:7px}
+.post .pd{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);white-space:nowrap}
+.post .pt{font-size:12.5px;color:var(--ink);line-height:1.45;flex:1}
+.post .ptrack{height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.post .pfill{height:100%;border-radius:4px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.post .pm{display:flex;gap:16px;margin-top:7px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);flex-wrap:wrap}
+.post .pm b{color:var(--ink);font-weight:600}
+.insight{background:var(--surface);padding:18px 20px;border-top:2px solid var(--accent)}
+.insight h3{font-size:12px;font-weight:600;margin-bottom:10px}
+.insight ul{margin:0;padding:0;list-style:none}
+.insight li{font-size:12px;color:var(--ink-2);line-height:1.55;padding:8px 0;border-top:1px solid var(--rule)}
+.insight li:first-child{border-top:0;padding-top:0}
+.insight li b{color:var(--ink);font-weight:600}
+.insight .caveat{margin-top:12px;padding-top:10px;border-top:1px solid var(--rule);font-size:10.5px;color:var(--ink-3);line-height:1.5}
+
+/* conclusions */
+.concl{display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+.cc{padding:15px 0;border-top:1px solid var(--rule);display:grid;grid-template-columns:64px 1fr;gap:16px;align-items:start}
+.cc .cfig{font-family:Archivo,sans-serif;font-size:22px;font-weight:700;letter-spacing:-.025em;color:var(--accent);line-height:1.05;text-align:right}
+.cc .cfig small{display:block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+.cc h4{font-family:Archivo,sans-serif;font-size:13px;font-weight:600;margin:0 0 5px;line-height:1.32}
+.cc p{margin:0;font-size:12px;color:var(--ink-2);line-height:1.55}
+
+.next{display:grid;grid-template-columns:repeat(3,1fr)}
+.next .n{padding:0 26px;border-left:1px solid var(--rule)}
+.next .n:first-child{border-left:0;padding-left:0}
+.next .idx{font-family:Archivo,sans-serif;font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:9px}
+.next h3{font-size:13.5px;font-weight:600;margin-bottom:7px;line-height:1.3}
+.next p{margin:0;font-size:12.5px;color:var(--ink-2);line-height:1.55}
+
+.report footer{margin-top:42px;padding-top:16px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;gap:24px;font-size:11px;color:var(--ink-3);line-height:1.6}
+.report footer .src{max-width:62ch}
+
+/* toolbar above the rendered report */
+.rtoolbar{
+  position:sticky;top:0;z-index:5;background:var(--band);color:var(--band-ink);
+  padding:12px 24px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+}
+.rtoolbar .t{font-size:12.5px;color:var(--band-ink-2);flex:1;min-width:180px}
+.rtoolbar .t b{color:#fff;font-weight:600}
+.rtoolbar .btn.ghost{color:#fff;border-color:rgba(255,255,255,.32)}
+.rtoolbar .btn.ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.6)}
+
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%);
+  background:var(--ink);color:#fff;padding:11px 20px;border-radius:3px;font-size:13px;z-index:50;
+  box-shadow:0 6px 20px rgba(0,0,0,.22);
+}
+
+@media (max-width:980px){
+  .wrap{padding:18px}
+  .sheet{padding:0 20px 40px}
+  .masthead{flex-direction:column;align-items:flex-start;gap:14px}
+  .by{text-align:left}.by img{margin-left:0}
+  .thesis,.band,.split,.tri,.two,.next,.concl{grid-template-columns:1fr;gap:24px}
+  .band .cell{border-left:0;border-top:1px solid rgba(255,255,255,.11)}
+  .band .cell:first-child{border-top:0}
+  .ratios{grid-template-columns:1fr 1fr}
+  .ratios .rt:nth-child(3){border-left:0;padding-left:0}
+  .ratios .rt:nth-child(-n+2){border-bottom:1px solid var(--rule)}
+  .next .n{border-left:0;padding:0}
+  .recognised{grid-template-columns:1fr}
+  .report footer{flex-direction:column}
+}
+
+@media print{
+  body{background:#fff}
+  .appbar,.wrap>.panel>.ph,.rtoolbar,.noprint{display:none!important}
+  .wrap{padding:0;max-width:none}
+  .panel{border:0}
+  .panel>.pb{padding:0}
+  .sheet{max-width:none;padding:0 12mm 6mm}
+  .report section{padding-top:20px;break-inside:avoid}
+  .masthead h1{font-size:32px}
+  .band .v{font-size:40px}
+  table{break-inside:auto}
+  tr{break-inside:avoid}
+  @page{size:A4;margin:10mm}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="site">
-    <div class="header-inner">
-      <div class="brand">
-        <span class="logo-mark">G</span>
-        <div>
-          <div class="brand-text-tiny">Gershon Consulting</div>
-          <div class="brand-text-title">One-Pager Generator</div>
-        </div>
+<header class="appbar noprint">
+  <div class="in">
+    <div class="logo">G</div>
+    <div>
+      <h1>One-Pager Generator</h1>
+      <div class="sub">Gershon Consulting · monthly client report</div>
+    </div>
+    <div class="spacer"></div>
+    <ol class="steps" id="steps">
+      <li data-step="1" aria-current="step">1 · Files</li>
+      <li data-step="2">2 · Check figures</li>
+      <li data-step="3">3 · One-pager</li>
+    </ol>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ STEP 1 ============ -->
+  <section class="panel noprint" id="view-upload">
+    <div class="ph">
+      <h2>Drop this month's exports in</h2>
+      <div class="hint">Sales Navigator campaign report · Cloud Campaign / SNC social report · the written narrative. Any combination — PDFs are read in your browser and never uploaded anywhere.</div>
+    </div>
+    <div class="pb">
+      <div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose PDF files">
+        <h3>Drop PDFs here, or click to choose</h3>
+        <p>The generator reads each file, works out which report it is, and pulls out the figures. You get to check every number before anything is produced.</p>
       </div>
-      <div class="header-meta">
-        <svg xmlns="http://www.w3.org/2000/svg" class="lock-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-        </svg>
-        <span class="meta-pill">Preview · Launching soon</span>
-        <span class="meta-divider" id="buildTag">v0.1</span>
+      <input type="file" id="picker" accept="application/pdf,.pdf" multiple hidden>
+      <div class="filelist" id="filelist" hidden></div>
+
+      <div class="recognised">
+        <div class="r"><h4>Campaign report</h4><p>Opportunities, connections, acceptances, messages, follow-ups, InMails, the breakdown tables and the full lead list.</p></div>
+        <div class="r"><h4>Social / SNC report</h4><p>Followers, impressions, reach, engagement, post counts, top posts, best format and posting window, hashtags.</p></div>
+        <div class="r"><h4>Written narrative</h4><p>Used as a cross-check on the social figures and to catch anything the two exports leave out.</p></div>
+      </div>
+
+      <div class="btnrow" style="margin-top:24px">
+        <button class="btn primary" id="toReview" disabled>Read the files →</button>
+        <button class="btn ghost" id="loadSample">Load the Enzymicals August example</button>
+        <button class="btn ghost" id="skipToForm">Start from a blank form</button>
       </div>
     </div>
-  </header>
+  </section>
 
-  <main class="page">
-
-    <!-- Initial form view -->
-    <div class="container fade-in" id="formView">
-
-      <div class="eyebrow">— Report Generator · Est. 2 minutes</div>
-
-      <h1 class="headline">
-        Generate your client <em>one-pager</em> from a Drive folder.
-      </h1>
-
-      <p class="lede">
-        Point us at the Google Drive folder containing the campaign's artifacts.
-        Our agent reads the files, extracts the KPIs, and emails you back a
-        polished one-pager PDF — same format you've seen before.
-      </p>
-
-      <!--
-        Preview deploy: form is wired up visually but the backend (n8n agent)
-        is not connected yet. Submission shows a "launching soon" message.
-        When ready, restore action/method/enctype/target and re-enable the
-        iframe-based submit flow (see git history).
-      -->
-      <form
-        id="reportForm"
-        novalidate
-      >
-
-        <!-- Client name -->
-        <div class="field-block">
-          <label class="field-label" for="clientName">Client name</label>
-          <div class="input-shell">
-            <input
-              id="clientName"
-              name="Client name"
-              type="text"
-              class="input-field sans"
-              maxlength="120"
-              placeholder="MAbSilico"
-              autocomplete="organization"
-            />
-          </div>
-        </div>
-
-        <!-- Client logo URL -->
-        <div class="field-block">
-          <label class="field-label" for="clientLogo">Client logo URL <span style="color:#B8B2A9; letter-spacing:0;">— optional</span></label>
-          <div class="input-shell">
-            <span class="input-prefix">https://</span>
-            <input
-              id="clientLogo"
-              name="Client logo URL"
-              type="url"
-              class="input-field sans"
-              placeholder="client.com/logo.png"
-              autocomplete="off"
-            />
-          </div>
-        </div>
-
-        <!-- Google Drive folder URL -->
-        <div class="field-block">
-          <label class="field-label" for="folderUrl">Google Drive folder URL <span class="field-required">*</span></label>
-          <div class="input-shell" id="folderShell">
-            <input
-              id="folderUrl"
-              name="Google Drive folder URL"
-              type="url"
-              required
-              class="input-field sans"
-              placeholder="https://drive.google.com/drive/folders/…"
-              autocomplete="off"
-            />
-          </div>
-          <p class="field-hint">Share the folder with the Gershon agent service account (Viewer is enough).</p>
-          <p class="field-error" id="folderUrlError"></p>
-        </div>
-
-        <!-- Recipient email -->
-        <div class="field-block">
-          <label class="field-label" for="email">Recipient email <span class="field-required">*</span></label>
-          <div class="input-shell" id="emailShell">
-            <input
-              id="email"
-              name="Recipient email"
-              type="email"
-              required
-              class="input-field sans"
-              placeholder="you@company.com"
-              autocomplete="email"
-            />
-          </div>
-          <p class="field-error" id="emailError"></p>
-        </div>
-
-        <!-- Actions -->
-        <div class="actions-row">
-          <button class="btn-primary" id="submitBtn" type="submit">
-            <span id="submitLabel">Generate one-pager</span>
-            <span id="submitSpinner" class="hidden" style="display:none; align-items:center; gap:8px;">
-              <span class="spinner"></span>
-              <span style="font-size:13px;">Sending…</span>
-            </span>
-            <svg id="submitArrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M5 12h14"></path>
-              <path d="m12 5 7 7-7 7"></path>
-            </svg>
-          </button>
-          <a class="btn-ghost" href="mailto:info@gershonconsulting.com?subject=One-pager%20question">Questions? Email us</a>
-        </div>
-      </form>
-
-      <!-- iframe target reserved for future n8n re-connection -->
-      <iframe name="n8nSubmitFrame" id="n8nSubmitFrame" title="reserved" style="display:none" aria-hidden="true"></iframe>
-
-      <!-- "What you'll receive" section -->
-      <div class="info-section">
-        <div class="micro-label">What we'll send back</div>
-        <div class="info-grid">
-          <div class="info-card">
-            <div class="info-card-number">SECTION 01</div>
-            <div class="info-card-title">Headline KPIs</div>
-            <ul>
-              <li>— Opportunities generated</li>
-              <li>— Acceptance rate</li>
-              <li>— Connections &amp; messages sent</li>
-            </ul>
-          </div>
-          <div class="info-card">
-            <div class="info-card-number">SECTION 02</div>
-            <div class="info-card-title">Lead Source Performance</div>
-            <ul>
-              <li>— Initial messages</li>
-              <li>— InMails</li>
-              <li>— Follow-ups</li>
-            </ul>
-          </div>
-          <div class="info-card">
-            <div class="info-card-number">SECTION 03</div>
-            <div class="info-card-title">Industry &amp; Demographics</div>
-            <ul>
-              <li>— Industries by opportunity</li>
-              <li>— Company size breakdown</li>
-              <li>— Charts (bar + donut)</li>
-            </ul>
-          </div>
-          <div class="info-card">
-            <div class="info-card-number">SECTION 04</div>
-            <div class="info-card-title">Next Move</div>
-            <ul>
-              <li>— Strategic summary</li>
-              <li>— Recommended next action</li>
-              <li>— Strategy call CTA</li>
-            </ul>
-          </div>
-        </div>
-        <div class="info-footer-note">
-          Files in the shared folder are read by a private agent — nothing is stored after the PDF is generated.
-        </div>
-      </div>
-
+  <!-- ============ STEP 2 ============ -->
+  <section class="panel noprint" id="view-review" hidden>
+    <div class="ph">
+      <h2>Check the figures</h2>
+      <div class="hint">Everything below is editable. Amber fields weren't found in the files — fill them in or leave them blank and they'll be left out of the report.</div>
     </div>
-
-    <!-- Preview "launching soon" view (replaces real success during preview) -->
-    <div class="container fade-in hidden" id="successView">
-      <div class="eyebrow">— Coming soon</div>
-      <h1 class="headline">We're putting the finishing <em>touches</em>.</h1>
-      <p class="lede">
-        Thanks for trying the generator. The agent that turns Drive folders into one-pagers is being connected as we speak — once it's live, submitting this form will email you back a PDF in a few minutes.
-      </p>
-
-      <div class="result-card">
-        <div class="result-row hidden" id="successClientRow">
-          <div class="result-row-label">Client</div>
-          <div class="result-row-value" id="successClient"></div>
-        </div>
-        <div class="result-row">
-          <div class="result-row-label">You entered</div>
-          <div class="result-row-value" id="successEmail"></div>
-        </div>
-        <div class="result-row">
-          <div class="result-row-label">Source folder</div>
-          <div class="result-row-value mono" id="successFolder"></div>
-        </div>
-        <div class="result-row">
-          <div class="result-row-label">Status</div>
-          <div class="result-row-value">Preview only — not submitted to the agent.</div>
-        </div>
+    <div class="pb">
+      <div class="legendkey">
+        <span><i class="sw" style="background:var(--good)"></i> read from the files</span>
+        <span><i class="sw" style="background:var(--warn)"></i> not found — needs you</span>
+        <span><i class="sw" style="background:var(--rule-strong)"></i> optional</span>
       </div>
-
-      <div class="actions-row">
-        <button class="btn-primary" id="newReportBtn" type="button">
-          Try again
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M5 12h14"></path>
-            <path d="m12 5 7 7-7 7"></path>
-          </svg>
-        </button>
-        <a class="btn-ghost" href="https://gershonconsulting.com">Back to gershonconsulting.com</a>
+      <div id="form"></div>
+      <div class="btnrow" style="margin-top:28px">
+        <button class="btn primary" id="toReport">Build the one-pager →</button>
+        <button class="btn ghost" id="backToUpload">← Back to files</button>
+        <span style="flex:1"></span>
+        <button class="btn ghost sm" id="exportData">Save figures as JSON</button>
       </div>
     </div>
+  </section>
 
-    <!-- Error view -->
-    <div class="container fade-in hidden" id="errorView">
-      <div class="eyebrow">— Delivery issue</div>
-      <h1 class="headline">We couldn't reach the <em>agent</em>.</h1>
-      <p class="lede" id="errorMessage">Please try again in a moment, or double-check the Drive folder link is valid and shared correctly.</p>
-
-      <div class="actions-row">
-        <button class="btn-primary" id="retryBtn" type="button">
-          Try again
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M5 12h14"></path>
-            <path d="m12 5 7 7-7 7"></path>
-          </svg>
-        </button>
-      </div>
+  <!-- ============ STEP 3 ============ -->
+  <section class="panel" id="view-report" hidden>
+    <div class="rtoolbar noprint">
+      <div class="t"><b id="rtTitle">One-pager ready</b> — print to PDF, or download the page to email on.</div>
+      <button class="btn primary sm" id="doPrint">Save as PDF</button>
+      <button class="btn ghost sm" id="doDownload">Download HTML</button>
+      <button class="btn ghost sm" id="backToReview">← Edit figures</button>
     </div>
+    <div class="pb" style="padding:0">
+      <div class="report" id="report"></div>
+    </div>
+  </section>
 
-  </main>
+</main>
 
-  <script>
-    // ============ Elements ============
-    const form = document.getElementById('reportForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const submitLabel = document.getElementById('submitLabel');
-    const submitSpinner = document.getElementById('submitSpinner');
-    const submitArrow = document.getElementById('submitArrow');
-
-    const formView = document.getElementById('formView');
-    const successView = document.getElementById('successView');
-    const errorView = document.getElementById('errorView');
-    const iframe = document.getElementById('n8nSubmitFrame');
-
-    const folderInput = document.getElementById('folderUrl');
-    const emailInput = document.getElementById('email');
-    const clientInput = document.getElementById('clientName');
-
-    const folderShell = document.getElementById('folderShell');
-    const emailShell = document.getElementById('emailShell');
-    const folderError = document.getElementById('folderUrlError');
-    const emailError = document.getElementById('emailError');
-
-    // ============ Validation ============
-    function validateDriveUrl(url) {
-      try {
-        const u = new URL(url);
-        if (!/(^|\.)google\.com$/.test(u.hostname)) return false;
-        return /\/folders\/[A-Za-z0-9_-]{10,}/.test(u.pathname);
-      } catch (_) { return false; }
-    }
-    function validateEmail(value) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-    }
-    function showFieldError(shell, msgEl, msg) {
-      shell.classList.add('error');
-      msgEl.textContent = msg;
-      msgEl.classList.add('show');
-    }
-    function clearFieldError(shell, msgEl) {
-      shell.classList.remove('error');
-      msgEl.classList.remove('show');
-    }
-    folderInput.addEventListener('input', () => clearFieldError(folderShell, folderError));
-    emailInput.addEventListener('input', () => clearFieldError(emailShell, emailError));
-
-    // ============ Views ============
-    function show(view) {
-      formView.classList.add('hidden');
-      successView.classList.add('hidden');
-      errorView.classList.add('hidden');
-      view.classList.remove('hidden');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function setSubmitting(isSubmitting) {
-      submitBtn.disabled = isSubmitting;
-      submitLabel.classList.toggle('hidden', isSubmitting);
-      submitArrow.classList.toggle('hidden', isSubmitting);
-      submitSpinner.style.display = isSubmitting ? 'inline-flex' : 'none';
-      submitSpinner.classList.toggle('hidden', !isSubmitting);
-    }
-
-    function showSuccess({ folderUrl, email, clientName }) {
-      document.getElementById('successEmail').textContent = email;
-      document.getElementById('successFolder').textContent = folderUrl;
-      document.getElementById('successTime').textContent = new Date().toLocaleString();
-      const clientRow = document.getElementById('successClientRow');
-      if (clientName && clientName.trim()) {
-        document.getElementById('successClient').textContent = clientName.trim();
-        clientRow.classList.remove('hidden');
-      } else {
-        clientRow.classList.add('hidden');
-      }
-      show(successView);
-    }
-
-    function showError(msg) {
-      if (msg) document.getElementById('errorMessage').textContent = msg;
-      show(errorView);
-    }
-
-    document.getElementById('newReportBtn').addEventListener('click', () => {
-      form.reset();
-      clearFieldError(folderShell, folderError);
-      clearFieldError(emailShell, emailError);
-      show(formView);
-    });
-    document.getElementById('retryBtn').addEventListener('click', () => show(formView));
-
-    // ============ Submit (preview mode — no backend) ============
-    // Validates the inputs and shows the "Coming soon" success view without
-    // sending anything to a backend. When n8n is wired up, restore the form
-    // action/method/enctype/target attributes and the iframe success handler.
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      let ok = true;
-      const folderUrl = folderInput.value.trim();
-      const email = emailInput.value.trim();
-      const clientName = clientInput.value.trim();
-
-      if (!validateDriveUrl(folderUrl)) {
-        showFieldError(folderShell, folderError, "Please paste a Google Drive folder URL (must contain /folders/<id>).");
-        ok = false;
-      }
-      if (!validateEmail(email)) {
-        showFieldError(emailShell, emailError, "Please enter a valid email address.");
-        ok = false;
-      }
-      if (!ok) return;
-
-      setSubmitting(true);
-      // Simulate a brief "thinking" moment so the state change doesn't feel jarring.
-      setTimeout(() => {
-        setSubmitting(false);
-        showSuccess({ folderUrl, email, clientName });
-      }, 600);
-    });
-  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

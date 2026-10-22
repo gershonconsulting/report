@@ -1,0 +1,43 @@
+HANDOFF - gershonconsulting/report (report.gershoncrm.com)
+Updated 2026-10-22 (nightly push)
+
+STACK
+- Pure static site: index.html + app.js, pdf.js 3.11.174 and Google Fonts via CDN.
+- No build step. Repo root is the site.
+
+DEPLOY ROUTE (verified in dashboard 2026-09-04)
+- Cloudflare Pages project "gershoncrm-report", Git-connected to
+  github.com/gershonconsulting/report, production branch main, auto-deploy on.
+- DNS: report.gershoncrm.com CNAME -> gershoncrm-report.pages.dev.
+- It is NOT a zip/direct-upload project.
+- Dashboard warning: "This project is disconnected from your Git account."
+  The GitHub App authorisation is broken, so a merge to main may not build.
+- Last deployment on Cloudflare: 7701c88 from 2026-05-12.
+
+DONE
+[x] Generator built and verified against the three real Enzymicals PDFs
+    (Sales Navigator campaign report, social report, narrative).
+[x] Files committed on branch nightly/2026-10-22-report-generator (PR open).
+[x] Preview: Olivier's Claude artifact e7aee43f-c5f4-470a-849f-f1eb268539c1
+    (https://claude.ai/artifact/e7aee43f-c5f4-470a-849f-f1eb268539c1)
+
+PENDING
+[ ] Merge the PR to main (Ariel / Olivier, one click in GitHub).
+[ ] Charles: Cloudflare dashboard > Workers & Pages > gershoncrm-report >
+    Settings > Builds > re-authorise / reconnect the GitHub integration, then
+    retry the latest deployment (or push a trivial commit) so Pages builds main.
+[ ] Charles: check report.gershoncrm.com shows "One-Pager Generator" afterwards.
+[ ] Not vendored: pdf.min.js (320KB) and pdf.worker.min.js are loaded from
+    cdnjs (too big for the connector tonight). Optional: self-host them.
+[ ] Olivier asked for more graphs / insight / conclusions than the first
+    version; this build adds cascade, month-on-month, weekly pace, engagement
+    meter, seniority mix and rule-based conclusions. Review wording on a real run.
+
+KNOWN ISSUES
+- Parsers are tuned to the Cloud Campaign and Sales Navigator PDF layouts seen
+  so far; other layouts fall back to the manual review form (amber fields).
+- Old n8n form backend is no longer used by the page.
+- Old DEPLOY.md in the repo describes the previous n8n-form page and is stale.
+
+NEXT ACTION
+- Merge PR, then Charles re-authorises Cloudflare <-> GitHub and redeploys.
