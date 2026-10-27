@@ -1,0 +1,95 @@
+================================================================
+HANDOFF.txt  -  report
+Written by: Claude (nightly run) - token-limit handoff protocol
+Date: 2026-10-27
+Reason: repo had no HANDOFF.txt. Another AI can continue this work
+        from this file alone.
+================================================================
+
+0. WHO YOU ARE READING THIS
+----------------------------------------------------------------
+You are an AI assistant (ChatGPT, Gemini, Copilot, or another Claude
+session) taking over work on this repository for Olivier Attia,
+founder / CTO of Gershon Consulting LLC.
+
+Read the MASTER HANDOFF first:
+  github.com/gershonconsulting/memory -> HANDOFF.txt
+It carries the full operating rules, the technical defaults, and the
+index of all repos.
+
+CRITICAL OPERATING RULES - do not break these:
+  * Olivier does NOT use a terminal, CLI, git or PowerShell. NEVER
+    give him commands, scripts, .bat files or 'just run this' steps.
+  * He does NOT upload, download, move or save files. If a file has
+    to get somewhere, YOU find the route and execute it.
+  * End every actionable reply with:
+      GREEN CHECK = ready for him to test (+ the link)
+      RED CROSS   = something still to do (+ exactly 3 options he can
+                    actually action - never a CLI step)
+  * Executors: Ariel = code and repo work. Charles = Chrome extension
+    and web admin panels (Cloudflare, GitHub settings, DNS, publishing).
+
+1. WHAT THIS REPO IS
+----------------------------------------------------------------
+Product / site name : report.gershonCRM.com - Gershon One-Pager Generator
+Live URL            : https://report.gershoncrm.com
+What it does        : Static form: a Google Drive folder link + recipient
+                      email + client name triggers an n8n agent ("Report
+                      Generation Workflow") that builds a client one-pager.
+Who uses it         : Gershon team (internal tool).
+
+2. STACK AND DEPLOY ROUTE
+----------------------------------------------------------------
+Language / framework: Pure static HTML (index.html), Tailwind + FontAwesome
+                      via CDN, no build step; _headers sets security headers
+Hosting             : Cloudflare Pages target gershoncrm-report.pages.dev
+                      (NOT the Hostinger default); DNS CNAME
+                      report.gershoncrm.com -> gershoncrm-report.pages.dev
+DNS / registrar     : Tierra.net; Cloudflare for CDN/DNS/SSL
+Deploy method       : Cloudflare Pages Git integration (no workflow in repo)
+Default branch      : main
+How to ship a change: merge to main; Pages auto-deploys. DEPLOY.md has the
+                      history and the n8n re-enable steps.
+Secrets / env vars  : none in the repo; the n8n form URL is in index.html
+
+3. RECENTLY DONE  [DONE]
+----------------------------------------------------------------
+- 2026-05-12: initial preview commit (backend not connected).
+- Open PR #1 "One-Pager Generator v1.0" replaces the v0.1 "Launching soon"
+  page - review it before anything else.
+
+4. PENDING  [TODO]
+----------------------------------------------------------------
+- Review and merge PR #1.
+- Re-connect the n8n backend (DEPLOY.md, section "Re-enable n8n"): restore
+  the form action, success messaging and the iframe submit handler.
+
+5. MISSING / NOT BUILT YET
+----------------------------------------------------------------
+- The live n8n connection (submission currently shows a "finishing touches"
+  message).
+
+6. KNOWN BUGS / NEEDS FIXING
+----------------------------------------------------------------
+- DEPLOY.md contains PowerShell/git instructions - ignore them; Olivier does
+  not use a terminal. Have Ariel/Charles do the work.
+
+7. NEXT ACTION - START HERE
+----------------------------------------------------------------
+The single most valuable next step is:
+  -> Review PR #1, merge it, and confirm with Charles that the n8n form
+     trigger is still active before re-enabling submissions.
+
+8. GOTCHAS / HARD-WON LESSONS
+----------------------------------------------------------------
+- The n8n instance is gershonconsulting.app.n8n.cloud; the form trigger URL
+  is hard-coded in the page.
+
+9. CONTACT / ESCALATION
+----------------------------------------------------------------
+Olivier Attia - oattia@gmail.com
+Report mailbox - report@gershonconsulting.com
+
+================================================================
+END OF HANDOFF
+================================================================
