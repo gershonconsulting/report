@@ -1,0 +1,11 @@
+HANDOFF.txt  -  report
+Date: 2026-11-11 (nightly)
+Read the MASTER HANDOFF first: github.com/gershonconsulting/memory -> HANDOFF.txt
+Rules: Olivier uses no terminal/CLI; Claude executes; end replies with a green check + link (ready) or a red cross + 3 options.
+
+WHAT IT IS
+Static single page (index.html, Cloudflare Pages). main = v0.1 "Launching soon" page; the One-Pager Generator v1.0 is in open PR #1.
+
+DONE
+✅ 2026-11-11 brand red #FE1B04 (nightly) — ready to test after merge
+   v0.1.1: #CC3333 / #A82828 -> #FE1B04 (hover #d11200). If PR #1 is merged first, re-apply the colour swap on its index.html.
