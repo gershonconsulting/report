@@ -9,3 +9,6 @@ Static single page (index.html, Cloudflare Pages). main = v0.1 "Launching soon" 
 DONE
 ✅ 2026-11-11 brand red #FE1B04 (nightly) — ready to test after merge
    v0.1.1: #CC3333 / #A82828 -> #FE1B04 (hover #d11200). If PR #1 is merged first, re-apply the colour swap on its index.html.
+✅ 2026-11-15 success-view fix (nightly) — ready to test on preview
+   v0.1.2: showSuccess() threw a TypeError (missing #successTime element) so the form never reached the success view; added the "Submitted" row.
+❌ Live site still needs Charles to reconnect Cloudflare Git before any of this deploys.
