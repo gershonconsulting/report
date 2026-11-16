@@ -1,14 +1,20 @@
 HANDOFF.txt  -  report
-Date: 2026-11-11 (nightly)
+Date: 2026-11-16 (nightly)
 Read the MASTER HANDOFF first: github.com/gershonconsulting/memory -> HANDOFF.txt
 Rules: Olivier uses no terminal/CLI; Claude executes; end replies with a green check + link (ready) or a red cross + 3 options.
 
 WHAT IT IS
-Static single page (index.html, Cloudflare Pages). main = v0.1 "Launching soon" page; the One-Pager Generator v1.0 is in open PR #1.
+Static site (index.html + app.js, Cloudflare Pages) with GET /api/health (functions/api/health.js).
+v1.1.0 = One-Pager Generator (from PR #1) rebuilt on current main, brand red. Replaces PR #1.
+Turns Sales Navigator / Cloud Campaign PDF exports into the Gershon client one-pager, in the browser (pdf.js from cdnjs; nothing uploaded).
 
 DONE
-✅ 2026-11-11 brand red #FE1B04 (nightly) — ready to test after merge
-   v0.1.1: #CC3333 / #A82828 -> #FE1B04 (hover #d11200). If PR #1 is merged first, re-apply the colour swap on its index.html.
-✅ 2026-11-15 success-view fix (nightly) — ready to test on preview
-   v0.1.2: showSuccess() threw a TypeError (missing #successTime element) so the form never reached the success view; added the "Submitted" row.
-❌ Live site still needs Charles to reconnect Cloudflare Git before any of this deploys.
+✅ 2026-11-16 v1.1.0: One-Pager Generator on top of main (index.html, app.js, README); keeps main's /api/health (now 1.1.0) and _headers.
+✅ 2026-11-16 brand red #FE1B04 everywhere (accent, logo, favicon, charts); darker shades #d11200 / #a30f00 / #8f0d00.
+✅ 2026-11-16 Playwright check desktop 1280 + phone 390: no console errors, no horizontal overflow.
+✅ Earlier fixes superseded: v0.1.2 successTime crash fix (old form page no longer exists; the page has no form).
+❌ Live site still needs Charles to reconnect Cloudflare Git (dashboard says project disconnected) before any merge deploys.
+❌ pdf.min.js / pdf.worker.min.js still loaded from cdnjs (not self-hosted).
+❌ Parsers tuned to the layouts seen so far; review wording/figures on a real run.
+❌ DEPLOY.md describes the old n8n form page and is stale.
+❌ PR #1 should be closed by Olivier/Ariel once this PR is merged.
