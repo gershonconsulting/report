@@ -478,33 +478,33 @@
   }
 
   var SAMPLE = {
-    client: 'Enzymicals AG', periodLabel: 'August 2026',
+    client: 'Northwind Biocatalysis (example)', periodLabel: 'August 2026',
     periodStart: '2026-08-01', periodEnd: '2026-08-31',
-    accountManager: 'Nicolette Jones', preparedBy: 'Gershon Consulting', logo: '',
+    accountManager: 'Alex Morgan', preparedBy: 'Gershon Consulting', logo: '',
     sent: 624, accepted: 201, messages: 187, followups: 233, inmails: 62, opportunities: 11,
     dSent: 5, dAccepted: 49, dMessages: 47, dFollowups: 108, dInmails: -67, dOpportunities: 83,
     followers: 4926, followersGained: 88, impressions: 16638, reach: 9330,
     engagements: 1548, reactions: 422, comments: 7, shares: 0, posts: 24, likes: 239,
     bestFormat: 'Short text posts', formatLift: 165.6, bestWindow: '9 AM – 12 PM ET',
-    hashtags: '#BIOCAT2026, #Biotechnology, #Enzymicals, #Networking',
+    hashtags: '#Biocatalysis, #Biotechnology, #GreenChemistry, #Networking',
     contentCaveat: 'Format and timing read from 4 posts since 1 July 2026 — a strong indication to test against, not yet a settled rule.',
     topPosts: [
-      { date: '28 Aug', text: 'BIOCAT 2026 congress recap — thanks to organisers, customers and partners', impressions: 2400, engagements: 877, likes: 77, comments: 2 },
-      { date: '17 Aug', text: '“We’re looking forward to BIOCAT 2026” — Philipp Süss and Christin Peters at the booth', impressions: 1600, engagements: 76, likes: 23, comments: 4 },
+      { date: '28 Aug', text: 'Trade-show recap — thanks to organisers, customers and partners', impressions: 2400, engagements: 877, likes: 77, comments: 2 },
+      { date: '17 Aug', text: '“See you at the show next week” — our team at the booth', impressions: 1600, engagements: 76, likes: 23, comments: 4 },
       { date: '25 Aug', text: 'Open invitation — bring your biocatalysis problem to the booth', impressions: 1200, engagements: 59, likes: 27, comments: 0 }
     ],
     leads: [
-      { name: 'Mark Drew', title: 'Director of Drug Discovery & Development', company: 'Critical Path Institute', industry: 'Research Services', location: 'Tucson, AZ', date: '2026-08-03', type: 'Meeting' },
-      { name: 'Vishwas Bhatia', title: 'Director, Analytical Research & Development', company: 'Ocugen', industry: 'Biotechnology Research', location: 'New York Metro', date: '2026-08-03', type: 'Email requested' },
-      { name: 'Anthony Sandrasagra', title: 'Chief Scientific Officer', company: 'Stealth Biotech', industry: 'Biotechnology Research', location: 'Arlington, MA', date: '2026-08-06', type: 'Email requested' },
-      { name: 'Kevin Leach', title: 'SVP, Scientific & Regulatory Affairs', company: 'Avance Clinical', industry: 'Biotechnology Research', location: 'Lexington, MA', date: '2026-08-17', type: 'Call request' },
-      { name: 'Roger Howard', title: 'Research Fellow & Head of Applied Synthesis Technologies', company: 'Pfizer', industry: 'Chemical Manufacturing', location: 'Mystic, CT', date: '2026-08-18', type: 'Email requested' },
-      { name: 'Ashley Buchanan', title: 'Senior Process Development Chemist', company: 'Ingevity', industry: 'Chemical Manufacturing', location: 'Charleston, SC', date: '2026-08-20', type: 'Call request' },
-      { name: 'Maryam Taherzadeh', title: 'AI in Drug Discovery Research Fellow', company: 'Algoverse', industry: 'Chemical Manufacturing', location: 'SF Bay Area', date: '2026-08-20', type: 'Email requested' },
-      { name: 'Timothy Martin', title: 'Associate Director, Process Chemistry', company: 'Incyte', industry: 'Biotechnology Research', location: 'Philadelphia Metro', date: '2026-08-24', type: 'Email requested' },
-      { name: 'Rich Christie', title: 'Clinical Development Consultant', company: 'Vima Therapeutics', industry: 'Biotechnology Research', location: 'New York Metro', date: '2026-08-26', type: 'Meeting' },
-      { name: 'Lanqi Huang', title: 'Senior Scientist 2 — Chemical R&D', company: 'Cambrex', industry: 'Chemical Manufacturing', location: 'United States', date: '2026-08-27', type: 'Call request' },
-      { name: 'Michael Simson', title: 'General Manager, Head of Business Development', company: 'Advy Biosciences', industry: 'Biotechnology Research', location: 'Boise Metro', date: '2026-08-31', type: 'Email requested' }
+      { name: 'Jordan Avery', title: 'Director of Drug Discovery', company: 'Example Research Institute', industry: 'Research Services', location: 'Tucson, AZ', date: '2026-08-03', type: 'Meeting' },
+      { name: 'Priya Raman', title: 'Director, Analytical R&D', company: 'Sample Therapeutics', industry: 'Biotechnology Research', location: 'New York Metro', date: '2026-08-03', type: 'Email requested' },
+      { name: 'Daniel Ortiz', title: 'Chief Scientific Officer', company: 'Demo Biotech', industry: 'Biotechnology Research', location: 'Boston Metro', date: '2026-08-06', type: 'Email requested' },
+      { name: 'Karen Liu', title: 'SVP, Regulatory Affairs', company: 'Placeholder Clinical', industry: 'Biotechnology Research', location: 'Lexington, MA', date: '2026-08-17', type: 'Call request' },
+      { name: 'Sam Becker', title: 'Head of Applied Synthesis', company: 'Acme Pharma', industry: 'Chemical Manufacturing', location: 'Hartford Metro', date: '2026-08-18', type: 'Email requested' },
+      { name: 'Taylor Brooks', title: 'Senior Process Chemist', company: 'Contoso Materials', industry: 'Chemical Manufacturing', location: 'Charleston, SC', date: '2026-08-20', type: 'Call request' },
+      { name: 'Noor Haddad', title: 'AI in Drug Discovery Fellow', company: 'Fabrikam Labs', industry: 'Chemical Manufacturing', location: 'SF Bay Area', date: '2026-08-20', type: 'Email requested' },
+      { name: 'Chris Nolan', title: 'Associate Director, Process Chemistry', company: 'Example Oncology', industry: 'Biotechnology Research', location: 'Philadelphia Metro', date: '2026-08-24', type: 'Email requested' },
+      { name: 'Robin Walsh', title: 'Clinical Development Consultant', company: 'Sample Bio', industry: 'Biotechnology Research', location: 'New York Metro', date: '2026-08-26', type: 'Meeting' },
+      { name: 'Mei Tanaka', title: 'Senior Scientist, Chemical R&D', company: 'Demo Chemicals', industry: 'Chemical Manufacturing', location: 'United States', date: '2026-08-27', type: 'Call request' },
+      { name: 'Evan Price', title: 'Head of Business Development', company: 'Placeholder Biosciences', industry: 'Biotechnology Research', location: 'Boise Metro', date: '2026-08-31', type: 'Email requested' }
     ],
     leadTypes: [
       { label: 'Email requested', value: 6 }, { label: 'Call request', value: 3 }, { label: 'Meeting', value: 2 }
@@ -1274,7 +1274,7 @@
     $('#skipToForm').addEventListener('click', function () { DATA = blank(); buildForm(); step(2); });
     $('#loadSample').addEventListener('click', function () {
       DATA = JSON.parse(JSON.stringify(SAMPLE));
-      FILES = [{ name: 'Enzymicals AG — worked example', state: 'done', kind: 'campaign' }];
+      FILES = [{ name: 'Northwind Biocatalysis — fictional worked example', state: 'done', kind: 'campaign' }];
       paintFiles(); buildForm(); step(2);
       toast('Example loaded — every figure is editable.');
     });

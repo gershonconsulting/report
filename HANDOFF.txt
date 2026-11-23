@@ -19,3 +19,4 @@ DONE
 ❌ DEPLOY.md describes the old n8n form page and is stale.
 ❌ PR #1 should be closed by Olivier/Ariel once this PR is merged.
 ✅ 2026-11-19 nightly: naming "Report by Gershon.AI" (title + app bar; One-Pager Generator kept as subtitle) + visible footer version line filled from /api/health. v1.1.1 (health.js + index.html buildTag).
+✅ 2026-11-23 v1.1.2: built-in example replaced with fictional data. The old example showed a real client's August figures and named leads on a page anyone can open. ❌ The app itself still has no sign-in, so anyone can open it (adding one needs Olivier's OK).
