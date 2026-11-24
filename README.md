@@ -39,3 +39,16 @@ Open `index.html`, or `python3 -m http.server 8080`.
 Cloudflare Pages project `gershoncrm-report`, Git-connected to this repo
 (branch `main`, no build command, no output directory; repo root is the site).
 See HANDOFF.txt.
+
+## Campaign reports (v1.2.0)
+
+`POST /api/campaign-report?kind=daily|weekly` builds the internal outreach
+reports from Streak and emails them to report@gershonconsulting.com via Resend
+(internal recipients only; enforced in code). Replaces the scheduled tasks
+#36 + #38 (weekly, Monday 7:41 ET) and #41 + #08 step 10 (daily, 11:47 ET).
+
+- Logic + email layout: `functions/_lib/campaigns.js`; Streak reads: `functions/_lib/streak.js`
+- Schedule: `.github/workflows/campaign-reports.yml` (GitHub Actions calls the endpoint)
+- Auth: `Authorization: Bearer <REPORT_CRON_SECRET>`; `&dry=1` returns the HTML without sending; `&date=YYYY-MM-DD` re-runs a day
+- Secrets: Cloudflare Pages project `gershoncrm-report` → `REPORT_CRON_SECRET`, `STREAK_API_KEY`, `RESEND_API_KEY`; GitHub repo secret `REPORT_CRON_SECRET` (same value)
+- Tests: `node --test tests/*.mjs`
