@@ -5,7 +5,7 @@
 // with HTML. Static site, no database: ok:true means "the Pages deployment is
 // serving". No auth, no data.
 
-const VERSION = '1.1.2';
+const VERSION = '1.2.0';
 
 export async function onRequestGet() {
   return new Response(JSON.stringify({

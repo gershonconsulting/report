@@ -20,3 +20,11 @@ DONE
 ❌ PR #1 should be closed by Olivier/Ariel once this PR is merged.
 ✅ 2026-11-19 nightly: naming "Report by Gershon.AI" (title + app bar; One-Pager Generator kept as subtitle) + visible footer version line filled from /api/health. v1.1.1 (health.js + index.html buildTag).
 ✅ 2026-11-23 v1.1.2: built-in example replaced with fictional data. The old example showed a real client's August figures and named leads on a page anyone can open. ❌ The app itself still has no sign-in, so anyone can open it (adding one needs Olivier's OK).
+
+CAMPAIGN REPORTS (2026-11-24 nightly, v1.2.0, PR branch nightly/2026-11-24-campaign-reports) — HELD: needs new secrets
+✅ POST /api/campaign-report?kind=daily|weekly: one WEEKLY email (replaces tasks #36 + #38, subject "[36+38] Outreach weekly ...") and one DAILY email (replaces #41 + #08 step 10, subject "✅/❌ [08+41] Campaign daily stats ..."), CC01/CC02/CC03 (+CC09 in weekly), from reports@gershon.ai to report@gershonconsulting.com only (code refuses non-internal recipients). Resend idempotency keys campaign-weekly-<period start> / campaign-daily-stats-<day>.
+✅ Data from Streak only (box created date, stage, last email sent/received, totalNumberOfSentEmails, "Bounced" comments). 10 unit tests pass (node --test tests/*.mjs); wrangler pages functions build compiles; local pages dev checked 401/503 paths.
+✅ Schedule: .github/workflows/campaign-reports.yml (daily 16:47 UTC = 11:47 ET, weekly Mon 12:41 UTC = 7:41 ET; one hour later in summer time) + manual run with kind/date.
+❌ Charles: Cloudflare Pages project gershoncrm-report > Settings > Variables and Secrets (Production): add REPORT_CRON_SECRET (new random 32+ chars), STREAK_API_KEY (Streak > Settings > API key, same as E2 repo), RESEND_API_KEY (gershon.ai sending key). GitHub repo gershonconsulting/report > Settings > Secrets > Actions: REPORT_CRON_SECRET (same value). Then merge the PR.
+❌ After merge: Claude runs the workflow once per kind (workflow_dispatch) and checks the emails; only then remove step 10 from task #08. Note: tasks #36, #38 and #41 were already switched off on 2026-11-23, so until this PR is live only #08's CC01 daily email is going out.
+❌ Not covered yet (needs Gmail OAuth): people per email (To+Cc), follow-up step numbers, auto-reply filtering, Calendar meetings (meetings = boxes moved to a "Scheduled" stage this week).
